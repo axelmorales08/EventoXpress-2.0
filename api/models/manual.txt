@@ -1,0 +1,1 @@
+Aca iran todas las tablas de la DB y un index que junte todas con la db de la carpeta config
