@@ -64,16 +64,21 @@ const Venue = sequelize.define('Venue', {
       type: DataTypes.STRING(64),
       allowNull: false,
     },
+    state: {
+      type: DataTypes.ENUM('publico', 'en proceso'),
+      allowNull: false,
+      defaultValue: 'en proceso',
+    },
+    published: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
     suitable_for_all_audiences: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
-    },
-    state: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
     }
+    
   }, {
     tableName: 'venues',
     timestamps: true,
