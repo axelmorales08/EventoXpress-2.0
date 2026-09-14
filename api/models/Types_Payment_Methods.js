@@ -14,7 +14,7 @@ const TypePaymentMethods = sequelize.define('TypePaymentMethods', {
     }
 }, {
     timestamps: false,
-    tableName: 'type_payment_methods'
+    tableName: 'types_payment_methods'
 
 });
 

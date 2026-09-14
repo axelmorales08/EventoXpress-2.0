@@ -68,14 +68,14 @@ const User = sequelize.define('User', {
 
 User.associate = (models) => {
     User.belongsTo(models.Gender, {
-      foreignKey: 'gender_id',
-      as: 'gender',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+        foreignKey: 'gender_id',
+        as: 'gender',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     });
     User.belongsTo(models.TypeUser, {
-      foreignKey: 'type_venue_id',
-      as: 'typeVenue',
+        foreignKey: 'type_venue_id',
+        as: 'typeVenue',
     });
 }
 module.exports = User;
