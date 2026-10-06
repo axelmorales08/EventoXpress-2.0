@@ -5,9 +5,7 @@ const cors = require('cors');
 // ===================== Configuración del servidor =====================
 const app = express();
 const PORT = 3000;
-const db = require('./config/db');
-const {Category} = require('./models/Categories');
-
+const { db } = require('./models');
 // Middleware para parsear JSON
 app.use(express.json());
 

@@ -1,141 +1,191 @@
 
 
-
-
-/* EJEMPLO DE QUE SE TIENE QUE HACER
 const db = require('../config/db');
 
-const Role = require('./Role');
-const User = require('./User');
-const Period = require('./Period');
-const ReportCard = require('./ReportCard');
-const Subject = require('./Subject');
-const Grade = require('./Grade');
-const Year = require('./Year');
-const Course = require('./Course');
-const ClassSection = require('./ClassSection');
-const ClassSubject = require('./ClassSubject');
-const StudentClass = require('./StudentClass');
-const Entity = require('./Entity');
-const Action = require('./Action');
-const Permission = require('./Permission');
-const RolePermission = require('./RolePermission');
-const Binnacle = require('./Binnacle');
-const School = require('./School');
+
+const Category = require('./Categories');
+const Gender = require('./Genders');
+const Venue = require('./Venues');
+const TypeVenue = require('./Type_Venue');
+const User = require('./Users');
+const TypeUser = require('./Type_Users');
+const OwnerAuthorization = require('./Owner_Authorization');
+const TypePaymentMethods = require('./Types_Payment_Methods');
+const PaymentsMethods = require('./Payments_Methods');
+const SecurityMeasures = require('./Security_Measures');
+const UserFavorites = require('./User_Favorites');
+const VenueAssistance = require('./Venue_Assistance');
+
+
+
+
 
 // ==================== Relaciones ====================
 
-// Roles y Users
-Role.hasMany(User, { foreignKey: 'role_id', as: 'users' });
-User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 
-// ReportCards
-User.hasMany(ReportCard, { foreignKey: 'student_id', as: 'report_cards' });
-ReportCard.belongsTo(User, { foreignKey: 'student_id', as: 'student' });
+TypeUser.hasMany(User, {
+    foreignKey: 'type_users_id',
+    as: 'users'
+});
 
-Period.hasMany(ReportCard, { foreignKey: 'period_id', as: 'report_cards' });
-ReportCard.belongsTo(Period, { foreignKey: 'period_id', as: 'period' });
+User.belongsTo(TypeUser, {
+    foreignKey: 'type_users_id',
+    as: 'type_user'
+});
 
-// Grades
-Subject.hasMany(Grade, { foreignKey: 'subject_id', as: 'grades' });
-Grade.belongsTo(Subject, { foreignKey: 'subject_id', as: 'subject' });
 
-ReportCard.hasMany(Grade, { foreignKey: 'report_card_id', as: 'grades' });
-Grade.belongsTo(ReportCard, { foreignKey: 'report_card_id', as: 'report_card' });
+// Gender y User
+Gender.hasMany(User, {
+    foreignKey: 'gender_id',
+    as: 'users'
+});
 
-// ClassSections
-Year.hasMany(ClassSection, { foreignKey: 'year_id', as: 'class_sections' });
-ClassSection.belongsTo(Year, { foreignKey: 'year_id', as: 'year' });
+User.belongsTo(Gender, {
+    foreignKey: 'gender_id',
+    as: 'gender'
+});
 
-Course.hasMany(ClassSection, { foreignKey: 'courses_id', as: 'class_sections' });
-ClassSection.belongsTo(Course, { foreignKey: 'courses_id', as: 'course' });
 
-User.hasMany(ClassSection, { foreignKey: 'teacher_id', as: 'teaching_sections' });
-ClassSection.belongsTo(User, { foreignKey: 'teacher_id', as: 'teacher' });
+// TypeVenue y Venue
+TypeVenue.hasMany(Venue, {
+    foreignKey: 'type_venue_id',
+    as: 'venues'
+});
 
-// ClassSubjects
-ClassSection.hasMany(ClassSubject, { foreignKey: 'class_section_id', as: 'class_subjects' });
-ClassSubject.belongsTo(ClassSection, { foreignKey: 'class_section_id', as: 'class_section' });
+Venue.belongsTo(TypeVenue, {
+    foreignKey: 'type_venue_id',
+    as: 'type_venue'
+});
 
-Subject.hasMany(ClassSubject, { foreignKey: 'subject_id', as: 'class_subjects' });
-ClassSubject.belongsTo(Subject, { foreignKey: 'subject_id', as: 'subject' });
 
-// StudentClass
-User.hasMany(StudentClass, { foreignKey: 'student_id', as: 'student_classes' });
-StudentClass.belongsTo(User, { foreignKey: 'student_id', as: 'student' });
+// User y Venue
+User.hasMany(Venue, {
+    foreignKey: 'user_id',
+    as: 'venues'
+});
 
-ClassSection.hasMany(StudentClass, { foreignKey: 'class_sections_id', as: 'student_classes' });
-StudentClass.belongsTo(ClassSection, { foreignKey: 'class_sections_id', as: 'class_section' });
+Venue.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
 
-// Permissions
-Entity.hasMany(Permission, { foreignKey: 'entity_id', as: 'permissions' });
-Permission.belongsTo(Entity, { foreignKey: 'entity_id', as: 'entity' });
 
-Action.hasMany(Permission, { foreignKey: 'action_id', as: 'permissions' });
-Permission.belongsTo(Action, { foreignKey: 'action_id', as: 'action' });
+// TypePaymentMethods y PaymentsMethods
+TypePaymentMethods.hasMany(PaymentsMethods, {
+    foreignKey: 'types_payment_methods_id',
+    as: 'payments_methods'
+});
 
-Role.hasMany(RolePermission, { foreignKey: 'role_id', as: 'role_permissions' });
-RolePermission.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
+PaymentsMethods.belongsTo(TypePaymentMethods, {
+    foreignKey: 'types_payment_methods_id',
+    as: 'type_payment_method'
+});
 
-Permission.hasMany(RolePermission, { foreignKey: 'permission_id', as: 'role_permissions' });
-RolePermission.belongsTo(Permission, { foreignKey: 'permission_id', as: 'permission' });
 
-Role.belongsToMany(Permission, { through: RolePermission, as: 'permissions', foreignKey: 'role_id' });
-Permission.belongsToMany(Role, { through: RolePermission, as: 'roles', foreignKey: 'permission_id' });
+// User y PaymentsMethods
+User.hasMany(PaymentsMethods, {
+    foreignKey: 'user_id',
+    as: 'payments_methods'
+});
 
-// School y Users
-School.hasMany(User, { foreignKey: 'school_id', as: 'users' });
-User.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+PaymentsMethods.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
 
-// School y Periods
-School.hasMany(Period, { foreignKey: 'school_id', as: 'periods' });
-Period.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 
-// // School y Years
-// School.hasMany(Year, { foreignKey: 'school_id', as: 'years' });
-// Year.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+// Venue y SecurityMeasures
+Venue.hasOne(SecurityMeasures, {
+    foreignKey: 'venue_id',
+    as: 'security_measures'
+});
 
-// // School y Courses
-// School.hasMany(Course, { foreignKey: 'school_id', as: 'courses' });
-// Course.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+SecurityMeasures.belongsTo(Venue, {
+    foreignKey: 'venue_id',
+    as: 'venue'
+});
 
-// School y ClassSections
-School.hasMany(ClassSection, { foreignKey: 'school_id', as: 'class_sections' });
-ClassSection.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 
-// // School y Subjects
-// School.hasMany(Subject, { foreignKey: 'school_id', as: 'subjects' });
-// Subject.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+// Venue y OwnerAuthorization
+Venue.hasOne(OwnerAuthorization, {
+    foreignKey: 'venue_id',
+    as: 'owner_authorization'
+});
 
-// School y ReportCards
-School.hasMany(ReportCard, { foreignKey: 'school_id', as: 'report_cards' });
-ReportCard.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+OwnerAuthorization.belongsTo(Venue, {
+    foreignKey: 'venue_id',
+    as: 'venue'
+});
+
+
+// User y UserFavorites
+User.hasMany(UserFavorites, {
+    foreignKey: 'user_id',
+    as: 'favorites'
+});
+
+UserFavorites.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
+
+
+// Venue y UserFavorites
+Venue.hasMany(UserFavorites, {
+    foreignKey: 'venue_id',
+    as: 'favorites'
+});
+
+UserFavorites.belongsTo(Venue, {
+    foreignKey: 'venue_id',
+    as: 'venue'
+});
+
+
+// User y VenueAssistance
+User.hasMany(VenueAssistance, {
+    foreignKey: 'user_id',
+    as: 'venue_assistance'
+});
+
+VenueAssistance.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
+
+
+// Venue y VenueAssistance
+Venue.hasMany(VenueAssistance, {
+    foreignKey: 'venue_id',
+    as: 'assistance'
+});
+
+VenueAssistance.belongsTo(Venue, {
+    foreignKey: 'venue_id',
+    as: 'venue'
+});
+
 
 // ==================== Crear objeto models ====================
 const models = {
-    Role,
+    Category,
+    Gender,
+    Venue,
+    TypeVenue,
     User,
-    Period,
-    ReportCard,
-    Subject,
-    Grade,
-    Year,
-    Course,
-    ClassSection,
-    ClassSubject,
-    StudentClass,
-    Entity,
-    Action,
-    Permission,
-    RolePermission,
-    Binnacle,
-    School
+    TypeUser,
+    OwnerAuthorization,
+    TypePaymentMethods,
+    PaymentsMethods,
+    SecurityMeasures,
+    UserFavorites,
+    VenueAssistance
 };
 
-// ==================== Exportar ====================
+
+
 module.exports = {
     db,
-    ...models, // Exporta los modelos individualmente
-    models     // Y también el objeto models completo
+    ...models,
+    models
 };
-*/
