@@ -89,23 +89,4 @@ const Venue = sequelize.define('Venue', {
     underscored: true,
   });
 
-  Venue.associate = (models) => {
-    Venue.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      as: 'user',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
-    Venue.belongsTo(models.Category, {
-      foreignKey: 'category_id',
-      as: 'category',
-    });
-    Venue.belongsTo(models.TypeVenue, {
-      foreignKey: 'type_venue_id',
-      as: 'typeVenue',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
-  };
-
 module.exports = Venue;

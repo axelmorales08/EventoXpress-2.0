@@ -1,7 +1,4 @@
-
-
 const db = require('../config/db');
-
 
 const Category = require('./Categories');
 const Gender = require('./Genders');
@@ -17,21 +14,21 @@ const UserFavorites = require('./User_Favorites');
 const VenueAssistance = require('./Venue_Assistance');
 
 
-
-
-
 // ==================== Relaciones ====================
 
 
+//User y Type_user
 TypeUser.hasMany(User, {
     foreignKey: 'type_users_id',
     as: 'users'
 });
 
+
 User.belongsTo(TypeUser, {
     foreignKey: 'type_users_id',
     as: 'type_user'
 });
+
 
 
 // Gender y User
@@ -40,10 +37,12 @@ Gender.hasMany(User, {
     as: 'users'
 });
 
+
 User.belongsTo(Gender, {
     foreignKey: 'gender_id',
     as: 'gender'
 });
+
 
 
 // TypeVenue y Venue
@@ -52,10 +51,26 @@ TypeVenue.hasMany(Venue, {
     as: 'venues'
 });
 
+
 Venue.belongsTo(TypeVenue, {
     foreignKey: 'type_venue_id',
     as: 'type_venue'
 });
+
+
+
+//Category y Venue
+Category.hasMany(Venue, {
+    foreignKey: 'category_id',
+    as: 'venues'
+});
+
+
+Venue.belongsTo(Category, {
+    foreignKey: 'category_id',
+    as: 'category'
+});
+
 
 
 // User y Venue
@@ -64,10 +79,12 @@ User.hasMany(Venue, {
     as: 'venues'
 });
 
+
 Venue.belongsTo(User, {
     foreignKey: 'user_id',
     as: 'user'
 });
+
 
 
 // TypePaymentMethods y PaymentsMethods
@@ -76,10 +93,12 @@ TypePaymentMethods.hasMany(PaymentsMethods, {
     as: 'payments_methods'
 });
 
+
 PaymentsMethods.belongsTo(TypePaymentMethods, {
     foreignKey: 'types_payment_methods_id',
     as: 'type_payment_method'
 });
+
 
 
 // User y PaymentsMethods
@@ -88,10 +107,12 @@ User.hasMany(PaymentsMethods, {
     as: 'payments_methods'
 });
 
+
 PaymentsMethods.belongsTo(User, {
     foreignKey: 'user_id',
     as: 'user'
 });
+
 
 
 // Venue y SecurityMeasures
@@ -100,10 +121,12 @@ Venue.hasOne(SecurityMeasures, {
     as: 'security_measures'
 });
 
+
 SecurityMeasures.belongsTo(Venue, {
     foreignKey: 'venue_id',
     as: 'venue'
 });
+
 
 
 // Venue y OwnerAuthorization
@@ -112,10 +135,12 @@ Venue.hasOne(OwnerAuthorization, {
     as: 'owner_authorization'
 });
 
+
 OwnerAuthorization.belongsTo(Venue, {
     foreignKey: 'venue_id',
     as: 'venue'
 });
+
 
 
 // User y UserFavorites
@@ -124,10 +149,12 @@ User.hasMany(UserFavorites, {
     as: 'favorites'
 });
 
+
 UserFavorites.belongsTo(User, {
     foreignKey: 'user_id',
     as: 'user'
 });
+
 
 
 // Venue y UserFavorites
@@ -136,10 +163,12 @@ Venue.hasMany(UserFavorites, {
     as: 'favorites'
 });
 
+
 UserFavorites.belongsTo(Venue, {
     foreignKey: 'venue_id',
     as: 'venue'
 });
+
 
 
 // User y VenueAssistance
@@ -148,10 +177,12 @@ User.hasMany(VenueAssistance, {
     as: 'venue_assistance'
 });
 
+
 VenueAssistance.belongsTo(User, {
     foreignKey: 'user_id',
     as: 'user'
 });
+
 
 
 // Venue y VenueAssistance
@@ -159,6 +190,7 @@ Venue.hasMany(VenueAssistance, {
     foreignKey: 'venue_id',
     as: 'assistance'
 });
+
 
 VenueAssistance.belongsTo(Venue, {
     foreignKey: 'venue_id',
@@ -181,7 +213,6 @@ const models = {
     UserFavorites,
     VenueAssistance
 };
-
 
 
 module.exports = {

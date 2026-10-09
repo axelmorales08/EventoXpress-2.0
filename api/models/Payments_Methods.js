@@ -41,7 +41,7 @@ const PaymentsMethods = sequelize.define('PaymentsMethods', {
       allowNull: false
     }
 }, {
-    timestamps: true,
+    timestamps: false,
     tableName: 'payments_methods'
 
 });

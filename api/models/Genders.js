@@ -8,7 +8,7 @@ const Gender = sequelize.define('Gender', {
     autoIncrement: true,
     primaryKey: true
   },
-    gendername: {
+    gender_name: {
     type: DataTypes.STRING(50),
     allowNull: false
   }
