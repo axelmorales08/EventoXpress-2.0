@@ -114,7 +114,6 @@ const venueAssistance = [
 
 // ==================== Helpers ====================
 
-
 /**
  * Inserta los registros solo si la tabla está vacía (así no se duplican
  * datos cada vez que se levanta el servidor) y después reajusta la
@@ -150,7 +149,6 @@ const seedTable = async (Model, rows, transaction) => {
 
 
 // ==================== Seeder principal ====================
-
 
 const seedDatabase = async () => {
     const transaction = await db.transaction();
@@ -195,6 +193,7 @@ const seedDatabase = async () => {
         throw error;
     }
 };
+
 
 
 module.exports = seedDatabase;
