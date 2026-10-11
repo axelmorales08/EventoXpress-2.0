@@ -16,7 +16,7 @@ const User = sequelize.define('User', {
             key: 'id',
         },
     },
-    type_gender_id: {
+    gender_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
