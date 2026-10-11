@@ -206,6 +206,8 @@ CREATE TABLE `venues` (
   `ending` date NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `name` varchar(64) NOT NULL,
+  `state` ENUM('publico', 'en proceso') NOT NULL DEFAULT 'en proceso',
+  `published` date,
   `suitable_for_all_audiences` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted_at` datetime DEFAULT NULL,
