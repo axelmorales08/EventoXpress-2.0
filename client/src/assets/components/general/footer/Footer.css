@@ -1,16 +1,18 @@
 .footer {
   width: 100%;
-  background-color: #181818;
+  background-color: #171717;
   color: #ffffff;
   padding: 52px 30px;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
+  margin-top: auto;
 }
 
 .footer-container {
   display: grid;
   grid-template-columns: 1.1fr 0.7fr 1.4fr;
   gap: 35px;
+  width: 100%;
   max-width: 1250px;
   margin: 0 auto;
   align-items: start;
@@ -51,7 +53,8 @@
 
 .footer-socials {
   display: flex;
-  gap: 42px;
+  flex-wrap: wrap;
+  gap: 18px 42px;
   margin-top: 40px;
 }
 
@@ -107,6 +110,8 @@
   padding: 2px;
   height: 38px;
   box-sizing: border-box;
+  width: 100%;
+  max-width: 420px;
 }
 
 .footer-form input {
@@ -172,8 +177,18 @@
     gap: 28px;
   }
 
+  .footer-logo {
+    align-items: center;
+  }
+
   .footer-logo h2 {
     font-size: 21px;
+  }
+
+  .footer-brand p,
+  .footer-links,
+  .footer-subscribe {
+    width: 100%;
   }
 
   .footer-links {
@@ -185,10 +200,30 @@
   }
 
   .footer-socials {
+    gap: 16px 20px;
     margin-top: 25px;
   }
 
   .footer-subscribe h4 {
     line-height: 1.5;
+  }
+
+  .footer-form {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .footer-form input {
+    width: 100%;
+    min-height: 36px;
+  }
+
+  .footer-form button {
+    width: 100%;
+    min-height: 36px;
   }
 }
