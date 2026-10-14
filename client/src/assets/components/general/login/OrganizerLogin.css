@@ -1,0 +1,97 @@
+.organizer-login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 60vh;
+  background: transparent;
+}
+
+.organizer-login-card {
+  width: 100%;
+  max-width: 720px;
+  background: #131313;
+  padding: 2.5rem;
+  border-radius: 20px;
+  border: 5px solid #404040;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.organizer-login-title {
+  margin: 0;
+  font-size: 36px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.organizer-login-sub {
+  margin: 8px 0 16px 0;
+  font-size: 14px;
+  color: #cfcfcf;
+  font-family: Arial, sans-serif;
+}
+
+.organizer-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.organizer-form-label {
+  text-align: left;
+  font-size: 16px;
+  color: #e6e6e6;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.organizer-form-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #333333;
+  background: #0f0f0f;
+  color: #ffffff;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.organizer-form-input::placeholder {
+  color: #8f8f8f;
+}
+
+.organizer-form-link {
+  color: #bdbdbd;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline dotted;
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.organizer-form-small {
+  font-size: 13px;
+  color: #cfcfcf;
+  margin: 6px 0 0 0;
+}
+
+.organizer-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.organizer-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 520px) {
+  .organizer-actions {
+    flex-direction: column;
+  }
+}

@@ -4,13 +4,22 @@ import './PreLogin.css'
 
 export default function FormLogin() {
   const navigate = useNavigate()
+  const [loginMethod, setLoginMethod] = useState('email')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  const isEmailLogin = loginMethod === 'email'
+  const identifierValue = isEmailLogin ? email : phone
+
   function handleSubmit(e) {
     e.preventDefault()
-    console.log('login', { email, password })
+    console.log('login', {
+      method: loginMethod,
+      identifier: identifierValue,
+      password,
+    })
   }
 
   return (
@@ -20,32 +29,38 @@ export default function FormLogin() {
         <p className="prelogin-sub">Ingresa a tu cuenta de eventoXpress y disfruta de tus eventos favoritos.</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <label className="form-label">Correo electrónico</label>
+          <label className="form-label">{isEmailLogin ? 'Correo electrónico' : 'Teléfono'}</label>
           <input
             className="form-input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type={isEmailLogin ? 'email' : 'tel'}
+            value={identifierValue}
+            onChange={(e) => (isEmailLogin ? setEmail(e.target.value) : setPhone(e.target.value))}
             required
-            placeholder="tu@correo.com"
-            aria-label="Correo electrónico"
+            placeholder={isEmailLogin ? 'tu@correo.com' : 'Tu teléfono'}
+            aria-label={isEmailLogin ? 'Correo electrónico' : 'Teléfono'}
           />
 
           <label className="form-label">Contraseña</label>
-          
-            <input
-              className="form-input"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Contraseña"
-              aria-label="Contraseña"
-            />
-          
 
-          <p className="form-small">¿querés iniciar sesión con telefono?</p>
-          <p className="form-link" onClick={() => navigate('/forgot')}>
+          <input
+            className="form-input"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Contraseña"
+            aria-label="Contraseña"
+          />
+
+          <p
+            className="form-small"
+            onClick={() => setLoginMethod(isEmailLogin ? 'phone' : 'email')}
+            style={{ cursor: 'pointer' }}
+          >
+            {isEmailLogin ? '¿querés iniciar sesión con teléfono?' : '¿querés iniciar sesión con correo?'}
+          </p>
+
+          <p className="form-link" onClick={() => navigate('/login/client/recover')}>
             ¿olvidaste tu contraseña?
           </p>
 
