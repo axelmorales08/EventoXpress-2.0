@@ -8,7 +8,8 @@ import RecoverOrganizerCode from './assets/components/general/login/RecoverOrgan
 import RecoverClientPassword from './assets/components/general/login/RecoverClientPassword'
 import AdminLogin from './assets/components/general/login/AdminLogin'
 import Register from './assets/components/general/login/PreRegister'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import LandingPage from './assets/components/general/landing/LandingPage'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <main className="app-main">
         <Routes>
           <Route path="/" element={<div />} />
+          <Route path="/landingOrg" element={<LandingPage />} />
           <Route path="/login" element={<PreLogin />} />
           <Route path="/login/client" element={<FormLogin />} />
           <Route path="/login/organizer" element={<OrganizerLogin />} />
