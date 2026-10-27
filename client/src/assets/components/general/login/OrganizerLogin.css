@@ -94,6 +94,14 @@
   text-align: center;
 }
 
+.organizer-form-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #d0d0d0;
+  text-align: left;
+}
+
 .organizer-actions {
   display: flex;
   gap: 12px;

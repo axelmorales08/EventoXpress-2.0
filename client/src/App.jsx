@@ -6,6 +6,7 @@ import FormLogin from './assets/components/general/login/FormLogin'
 import OrganizerLogin from './assets/components/general/login/OrganizerLogin'
 import RecoverOrganizerCode from './assets/components/general/login/RecoverOrganizerCode'
 import RecoverClientPassword from './assets/components/general/login/RecoverClientPassword'
+import ResetPassword from './assets/components/general/login/ResetPassword'
 import AdminLogin from './assets/components/general/login/AdminLogin'
 import Register from './assets/components/general/login/PreRegister'
 import LandingPage from './assets/components/general/landing/LandingPage'
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login/organizer" element={<OrganizerLogin />} />
           <Route path="/login/organizer/recover" element={<RecoverOrganizerCode />} />
           <Route path="/login/client/recover" element={<RecoverClientPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/login/admin" element={<AdminLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register/client" element={<Register />} />

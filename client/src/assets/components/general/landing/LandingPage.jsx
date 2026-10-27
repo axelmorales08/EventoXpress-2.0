@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './LandingPage.css'
 import crowdConcert from '../../../img/Concierto.png'
 import theaterScene from '../../../img/Teatro.png'
@@ -29,6 +30,7 @@ const benefitCards = [
 ]
 
 function LandingPage() {
+  const navigate = useNavigate()
   const [isFavorite, setIsFavorite] = useState(() => {
     const saved = localStorage.getItem('eventoxpress-favorite')
     return saved === 'true'
@@ -52,8 +54,19 @@ function LandingPage() {
             conectando personas con eventos que marcan la diferencia.
           </p>
           <div className="hero-actions">
-            <button type="button" className="event-button event-button--primary">
-              Ingresar
+            <button
+              type="button"
+              className="event-button event-button--secondary"
+              onClick={() => navigate('/register')}
+            >
+              Registrarse
+            </button>
+            <button
+              type="button"
+              className="event-button event-button--primary"
+              onClick={() => navigate('/login')}
+            >
+              Iniciar sesión
             </button>
           </div>
         </div>
