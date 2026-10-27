@@ -1,15 +1,17 @@
 // ===================== Importaciones =====================
 const express = require('express');
 const cors = require('cors');
+const seedDatabase = require('./config/seeder')
+const userRoutes = require('./routes/userRoutes');
 
 // ===================== Configuración del servidor =====================
 const app = express();
 const PORT = 3000;
-const db = require('./config/db');
-const {Category} = require('./models/Categories');
-
+const { db } = require('./models');
 // Middleware para parsear JSON
 app.use(express.json());
+
+
 
 // Middleware para CORS
 app.use(cors({
@@ -18,13 +20,20 @@ app.use(cors({
     credentials: true
 }));
 
+
+
+// ===================== Rutas =====================
+app.use('/api/auth', userRoutes);
+
+
+
 // ===================== Inicialización =====================
 app.listen(PORT, async () => {
     try {
         // Siguiente paso a realizar NO DESCOMENTAR
         // Sincronizar base de datos
         await db.sync({ force: false });
-        // await seedDatabase();
+        //await seedDatabase();
         console.log(`Servidor corriendo en el puerto ${PORT}.`);
     } catch (err) {
         console.error('Error al sincronizar la base de datos:', err);
