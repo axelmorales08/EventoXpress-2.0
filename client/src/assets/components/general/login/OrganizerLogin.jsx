@@ -1,63 +1,113 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './OrganizerLogin.css'
 
 export default function OrganizerLogin() {
   const navigate = useNavigate()
-  const [codigo, setCodigo] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [step, setStep] = useState('email')
+  const [code, setCode] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    console.log('organizer login', { codigo, password })
+  const handleEmailSubmit = (event) => {
+    event.preventDefault()
+
+    const allowedOrganizerEmails = ['organizador@eventoxpress.com', 'admin@eventoxpress.com']
+
+    if (!allowedOrganizerEmails.includes(email.trim().toLowerCase())) {
+      setErrorMessage('El mail ingresado no es parte de organizadores.')
+      return
+    }
+
+    setErrorMessage('')
+    setStep('code')
+  }
+
+  const handleCodeSubmit = (event) => {
+    event.preventDefault()
+  }
+
+  const handleResendCode = () => {
+    console.log('Reenviar código para:', email)
   }
 
   return (
     <div className="organizer-login-page">
       <div className="organizer-login-card">
-        <h2 className="organizer-login-title">Iniciar sesión como organizador</h2>
-        <p className="organizer-login-sub">Ingresa a tu cuenta de EventoXpress y disfruta de tus eventos favoritos.</p>
+        <h2 className="organizer-login-title">
+          {step === 'email' ? 'Verificar correo' : 'Ingrese el código'}
+        </h2>
 
-        <form className="organizer-login-form" onSubmit={handleSubmit}>
-          <label className="organizer-form-label">Escribe el código de iniciar sesión del e-mail oficial</label>
-          <input
-            className="organizer-form-input"
-            type="text"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-            required
-            placeholder="123-456"
-            aria-label="Código de iniciar sesión del e-mail oficial"
-          />
+        <p className="organizer-login-sub">
+          {step === 'email'
+            ? 'Ingresar correo de tu cuenta de Organizador'
+            : 'Te enviamos un código de 6 dígitos a tu correo.'}
+        </p>
 
-          <label className="organizer-form-label">Contraseña</label>
-          <input
-            className="organizer-form-input"
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Contraseña"
-            aria-label="Contraseña"
-          />
+        <form
+          className="organizer-login-form"
+          onSubmit={step === 'email' ? handleEmailSubmit : handleCodeSubmit}
+        >
+          {step === 'email' ? (
+            <>
+              <label className="organizer-form-label">Correo electrónico</label>
+              <input
+                className="organizer-form-input"
+                type="email"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value)
+                  if (errorMessage) setErrorMessage('')
+                }}
+                required
+                placeholder="correo@ejemplo.com"
+                aria-label="Correo electrónico"
+              />
 
-          <p className="organizer-form-link" onClick={() => navigate('/login/organizer/recover')}>
-            Recuperar código / reestablecer código
-          </p>
+           {errorMessage && <p className="organizer-form-error">{errorMessage}</p>} 
+            </>
+          ) : (
+            <>
+              <label className="organizer-form-label">Código de 6 dígitos</label>
+              <input
+                className="organizer-form-input"
+                type="text"
+                value={code}
+                onChange={(event) =>
+                  setCode(event.target.value.replace(/\D/g, '').slice(0, 6))
+                }
+                required
+                maxLength={6}
+                placeholder="XXX-XXX"
+                aria-label="Código de verificación de 6 dígitos"
+              />
+            </>
+          )}
 
-          <p className="organizer-form-small">Solicitud Gmail</p>
-
-          <p className="organizer-form-small" style={{ marginTop: 8 }}>
-            <span className="organizer-form-link" onClick={() => navigate('/login/client')}>Quiero iniciar como cliente</span>
-          </p>
+          {step === 'email' ? (
+            <button
+              type="button"
+              className="organizer-form-link-button"
+              onClick={() => navigate('/login/client')}
+            >
+              Iniciar como cliente
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="organizer-form-link-button"
+              onClick={handleResendCode}
+            >
+              Reenviar código
+            </button>
+          )}
 
           <div className="organizer-actions">
             <button type="button" className="btn btn-cancel" onClick={() => navigate('/login')}>
               Atras
             </button>
             <button type="submit" className="btn btn-primary">
-              Confirmar
+              {step === 'email' ? 'Confirmar' : 'Ingresar'}
             </button>
           </div>
         </form>

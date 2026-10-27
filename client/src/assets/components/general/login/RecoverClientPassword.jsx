@@ -44,28 +44,13 @@ export default function RecoverClientPassword() {
             aria-label={isEmailMethod ? 'Correo electrónico' : 'Teléfono'}
           />
 
-          <p
-            className="organizer-form-link"
+          <button
+            type="button"
+            className="organizer-form-link-button"
             onClick={() => setMethod(isEmailMethod ? 'phone' : 'email')}
           >
-            {isEmailMethod
-              ? '¿Querés recuperar la contraseña con tu teléfono?'
-              : '¿Querés recuperar la contraseña con tu correo?'}
-          </p>
-
-          <p className="organizer-form-small">
-            ¿No tenés cuenta?{' '}
-            <span className="organizer-form-link" onClick={() => navigate('/register')}>
-              Registrate
-            </span>
-          </p>
-
-          <p className="organizer-form-small" style={{ marginTop: 8 }}>
-            ¿Ya estás registrado?{' '}
-            <span className="organizer-form-link" onClick={() => navigate('/login/client')}>
-              Iniciá sesión
-            </span>
-          </p>
+            {isEmailMethod ? 'Recuperar contraseña con teléfono' : 'Recuperar contraseña con correo'}
+          </button>
 
           <div className="organizer-actions">
             <button type="button" className="btn btn-cancel" onClick={() => navigate('/login/client')}>

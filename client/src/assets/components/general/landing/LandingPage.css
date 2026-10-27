@@ -128,36 +128,58 @@
 .hero-visual {
   position: relative;
   flex: 1 1 48%;
-  min-height: 470px;
+  min-height: 520px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.hero-image {
+.featured-event-collage {
+  position: relative;
+  width: min(100%, 700px);
+  height: 580px;
+  margin-top: 18px;
+}
+
+.featured-event-main,
+.featured-event-mini {
   position: absolute;
-  display: block;
-  width: 390px;
-  height: 390px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 18px 38px var(--shadow-soft);
+  overflow: hidden;
   background: #111111;
 }
 
-.hero-image--back {
-  top: 80px;
-  left: 36px;
-  width: 290px;
-  height: 290px;
-  transform: rotate(-8deg);
-  z-index: 1;
+.featured-event-main {
+  right: 0;
+  bottom: 22px;
+  width: 66%;
+  height: 90%;
+  border-radius: 50% 50% 18px 18px / 36% 36% 18px 18px;
+  z-index: 2;
 }
 
-.hero-image--front {
-  right: 24px;
-  top: 0;
-  width: 420px;
-  height: 420px;
-  z-index: 2;
+.featured-event-main img,
+.featured-event-mini img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-event-main img {
+  object-position: 58% 52%;
+}
+
+.featured-event-mini {
+  left: 18px;
+  bottom: 22px;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.featured-event-mini img {
+  object-position: 50% 60%;
 }
 
 .event-presentation {
@@ -283,20 +305,45 @@
 }
 
 .heart-button {
-  width: 52px;
-  height: 52px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--gold);
-  font-size: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  background: transparent;
+  color: #ffffff;
+  font-size: 2.2rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
-.heart-button:hover {
-  transform: scale(1.03);
-  border-color: rgba(198, 154, 0, 0.52);
+.heart-button:hover,
+.heart-button:focus-visible {
+  transform: scale(1.04);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.heart-button.is-active {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.95);
+  color: #ff2d2d;
+}
+
+.heart-button.is-active:hover,
+.heart-button.is-active:focus-visible {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.95);
+  color: #ff2d2d;
+}
+
+.heart-button:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .experience-visual {
@@ -394,16 +441,19 @@
     min-height: 350px;
   }
 
-  .hero-image--back {
-    left: 0;
-    width: 220px;
-    height: 220px;
+  .featured-event-collage {
+    width: min(100%, 420px);
+    height: 320px;
   }
 
-  .hero-image--front {
-    right: 0;
-    width: 290px;
-    height: 290px;
+  .featured-event-main {
+    width: 64%;
+    height: 78%;
+  }
+
+  .featured-event-mini {
+    left: 0;
+    width: 42%;
   }
 
   .benefit-grid {

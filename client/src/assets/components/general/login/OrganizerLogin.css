@@ -65,19 +65,33 @@
   color: #8f8f8f;
 }
 
-.organizer-form-link {
+.organizer-form-link-button {
+  background: transparent;
+  border: none;
   color: #bdbdbd;
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline dotted;
   font-size: 13px;
-  margin: 4px 0;
+  margin: 8px auto 0;
+  padding: 0;
+  text-align: center;
+  display: block;
 }
 
-.organizer-form-small {
+.organizer-form-link-button:hover {
+  color: #ffffff;
+}
+
+.organizer-form-error {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 77, 77, 0.12);
+  border: 1px solid rgba(255, 77, 77, 0.35);
+  color: #ff8a8a;
   font-size: 13px;
-  color: #cfcfcf;
-  margin: 6px 0 0 0;
+  text-align: center;
 }
 
 .organizer-actions {

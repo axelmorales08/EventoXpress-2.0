@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
 import './LandingPage.css'
-import heroEventOne from '../../../img/hero-event-1.svg'
-import heroEventTwo from '../../../img/hero-event-2.svg'
-import theaterScene from '../../../img/theater-scene.svg'
-import crowdConcert from '../../../img/crowd-concert.svg'
+import crowdConcert from '../../../img/Concierto.png'
+import theaterScene from '../../../img/Teatro.png'
+import festivalImage from '../../../img/Festival.png'
+import soccerImage from '../../../img/Futbol.png'
 
 const benefitCards = [
   {
@@ -28,6 +29,15 @@ const benefitCards = [
 ]
 
 function LandingPage() {
+  const [isFavorite, setIsFavorite] = useState(() => {
+    const saved = localStorage.getItem('eventoxpress-favorite')
+    return saved === 'true'
+  })
+
+  useEffect(() => {
+    localStorage.setItem('eventoxpress-favorite', String(isFavorite))
+  }, [isFavorite])
+
   return (
     <div className="eventoxpress-page">
       <section className="event-hero">
@@ -43,25 +53,26 @@ function LandingPage() {
           </p>
           <div className="hero-actions">
             <button type="button" className="event-button event-button--primary">
-              Registrarse
-            </button>
-            <button type="button" className="event-button event-button--secondary">
-              Iniciar Sesión
+              Ingresar
             </button>
           </div>
         </div>
 
         <div className="hero-visual" aria-label="Imágenes de eventos destacados">
-          <img
-            className="hero-image hero-image--back"
-            src={heroEventTwo}
-            alt="Evento con música y gente celebrando"
-          />
-          <img
-            className="hero-image hero-image--front"
-            src={heroEventOne}
-            alt="Evento con artistas en escena"
-          />
+          <div className="featured-event-collage">
+            <div className="featured-event-main">
+              <img
+                src={festivalImage}
+                alt="Festival nocturno con luces doradas y público celebrando"
+              />
+            </div>
+            <div className="featured-event-mini">
+              <img
+                src={soccerImage}
+                alt="Campo de fútbol al atardecer con luces cálidas"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -111,7 +122,13 @@ function LandingPage() {
               <button type="button" className="event-button event-button--secondary">
                 Ver Eventos...
               </button>
-              <button type="button" className="heart-button" aria-label="Guardar evento">
+              <button
+                type="button"
+                className={`heart-button ${isFavorite ? 'is-active' : ''}`}
+                aria-label="Guardar evento"
+                aria-pressed={isFavorite}
+                onClick={() => setIsFavorite((prev) => !prev)}
+              >
                 ♥
               </button>
             </div>
