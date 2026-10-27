@@ -4,9 +4,9 @@ const { DataTypes } = require('sequelize');
 
 const User = sequelize.define('User', {
     id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
     type_users_id: {
         type: DataTypes.INTEGER,
@@ -26,19 +26,22 @@ const User = sequelize.define('User', {
     },
     full_name: {
         type: DataTypes.STRING(255),
-        allowNull:false
+        allowNull: false
     },
     user_name: {
         type: DataTypes.STRING(64),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     dni: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.STRING(20), 
+        allowNull: false,
+        unique: true
     },
     email: {
         type: DataTypes.STRING(255),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     birthdate: {
         type: DataTypes.DATEONLY,
@@ -57,11 +60,11 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 }, {
-    timestamps: false,
     tableName: 'users',
+    timestamps: true,      // paranoid solo funciona con timestamps: true
     createdAt: 'created_at',
-    updatedAt: false, // Desactivado porque no existe la columna en la tabla SQL
-    paranoid: true, // Habilita borrado lógico mediante deleted_at
+    updatedAt: false,      // no existe la columna updated_at en la tabla
+    paranoid: true,        // borrado lógico mediante deleted_at
     deletedAt: 'deleted_at',
     underscored: true,
 });

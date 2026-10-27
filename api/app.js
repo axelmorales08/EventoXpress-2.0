@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const seedDatabase = require('./config/seeder')
+const userRoutes = require('./routes/userRoutes');
 
 // ===================== Configuración del servidor =====================
 const app = express();
@@ -18,6 +19,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+
+
+// ===================== Rutas =====================
+app.use('/api/auth', userRoutes);
 
 
 
