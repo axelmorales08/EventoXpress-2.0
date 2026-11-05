@@ -19,6 +19,18 @@ app.use(cors({
     credentials: true
 }));
 
+const ticketsRoutes = require('./routes/ticketsRoutes');
+app.use('/api', ticketsRoutes);
+
+const favoritesRoutes = require('./routes/favoritesRoutes');
+app.use('/api', favoritesRoutes);
+
+const paymentsRoutes = require('./routes/paymentsRoutes');
+app.use('/api', paymentsRoutes);
+
+const securityRoutes = require('./routes/securityRoutes');
+app.use('/api', securityRoutes);
+
 
 
 // ===================== Inicialización =====================
