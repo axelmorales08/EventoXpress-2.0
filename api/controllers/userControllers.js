@@ -112,4 +112,117 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+// Función auxiliar: valida los campos y actualiza al usuario con ese id
+const updateById = async (id, req, res) => {
+    const { full_name, user_name, email, phone, birthdate } = req.body;
+    const changes = {};
+
+    try {
+        if (full_name) changes.full_name = full_name;
+        if (user_name) changes.user_name = user_name;
+        if (email) {
+            if (!email.includes('@')) return res.status(400).json({ message: 'El email no es válido' });
+            changes.email = email;
+        }
+        if (phone) {
+            if (isNaN(phone)) return res.status(400).json({ message: 'El teléfono tiene que ser un número' });
+            changes.phone = phone;
+        }
+        if (birthdate) {
+            if (isNaN(Date.parse(birthdate))) return res.status(400).json({ message: 'La fecha de nacimiento no es válida' });
+            changes.birthdate = birthdate;
+        }
+
+        if (Object.keys(changes).length === 0)
+            return res.status(400).json({ message: 'Ingrese al menos un valor a modificar' });
+
+        const [updated] = await User.update(changes, { where: { id } });
+        if (updated === 0) return res.status(404).json({ message: 'No se modificó ningún usuario' });
+
+        return res.json({ message: 'Se actualizó el usuario correctamente' });
+    } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError')
+            return res.status(409).json({ message: 'Ese email o usuario ya está en uso' });
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+// GET /api/info
+const info = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.id, {
+            attributes: { exclude: ['password'] }
+        });
+        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        return res.json(user);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+// PATCH /api/modify
+const modify = (req, res) => updateById(req.user.id, req, res);
+
+// GET /api/auth/users_get (incluye los desactivados, se reconocen por deleted_at)
+const usersGet = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: { exclude: ['password'] },
+            paranoid: false
+        });
+        return res.json(users);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+// PATCH /api/auth/users_status/:id   body: { active: true | false }
+const usersStatus = async (req, res) => {
+    const { active } = req.body;
+
+    try {
+        if (typeof active !== 'boolean')
+            return res.status(400).json({ message: 'active tiene que ser true o false' });
+
+        if (Number(req.params.id) === req.user.id)
+            return res.status(400).json({ message: 'No podés cambiar tu propio estado' });
+
+        const user = await User.findByPk(req.params.id, { paranoid: false });
+        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        if (active) await user.restore();
+        else await user.destroy();
+
+        return res.json({ message: active ? 'Usuario activado' : 'Usuario desactivado' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+// PATCH /api/users_mody/:id
+const usersMody = (req, res) => updateById(req.params.id, req, res);
+
+// PATCH /api/users_role/:id   body: { type_users_id }
+const usersRole = async (req, res) => {
+    const { type_users_id } = req.body;
+
+    try {
+        if (![1, 2, 3].includes(Number(type_users_id)))
+            return res.status(400).json({ message: 'Rol inválido' });
+
+        const [updated] = await User.update({ type_users_id }, { where: { id: req.params.id } });
+        if (updated === 0) return res.status(404).json({ message: 'No se modificó ningún usuario' });
+
+        return res.json({ message: 'Se actualizó el rol correctamente' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+module.exports = { register, login, info, modify, usersGet, usersMody, usersRole, usersStatus };

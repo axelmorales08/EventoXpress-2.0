@@ -38,4 +38,13 @@ const auth = async (req, res, next) => {
     }
 };
 
-module.exports = { auth };
+const ADMIN_ROLE = 1; // confirmame que el admin es 1
+
+const isAdmin = (req, res, next) => {
+    if (req.user?.type_users_id !== ADMIN_ROLE) {
+        return res.status(403).json({ message: 'No tenés permisos para esta acción' });
+    }
+    next();
+};
+
+module.exports = { auth, isAdmin };
