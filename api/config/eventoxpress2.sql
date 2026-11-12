@@ -337,6 +337,40 @@ INSERT INTO `venue_assistance` (`id`, `venue_id`, `user_id`) VALUES
 (2, 2, 4),
 (3, 3, 5);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `venue_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `venue_id` (`venue_id`),
+  CONSTRAINT `fk_tickets_venues` FOREIGN KEY (`venue_id`) REFERENCES `venues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `venue_id`, `name`, `price`, `amount`) VALUES
+-- Entradas para el Teatro Corrientes (venue_id: 1)
+(1, 1, 'Entrada General', 15000.00, 300),
+(2, 1, 'Palco VIP', 25000.00, 200),
+
+-- Entradas para Tech Conference Online (venue_id: 2)
+(3, 2, 'Acceso Estándar', 0.00, 1000),
+(4, 2, 'Acceso Premium con Certificado', 5000.00, 200),
+
+-- Entradas para Rock Night Live (venue_id: 3)
+(5, 3, 'Campo General', 20000.00, 400),
+(6, 3, 'Platea Preferencial', 35000.00, 100);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

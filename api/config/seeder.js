@@ -13,7 +13,8 @@ const {
     OwnerAuthorization,
     SecurityMeasures,
     UserFavorites,
-    VenueAssistance
+    VenueAssistance,
+    Ticket
 } = require('../models');
 
 
@@ -112,6 +113,16 @@ const venueAssistance = [
 ];
 
 
+const tickets = [
+    { id: 1, venue_id: 1, name: 'Entrada General', price: 15000.00, amount: 300 },
+    { id: 2, venue_id: 1, name: 'Palco VIP', price: 25000.00, amount: 200 },
+    { id: 3, venue_id: 2, name: 'Acceso Estándar', price: 0.00, amount: 1000 },
+    { id: 4, venue_id: 2, name: 'Acceso Premium con Certificado', price: 5000.00, amount: 200 },
+    { id: 5, venue_id: 3, name: 'Campo General', price: 20000.00, amount: 400 },
+    { id: 6, venue_id: 3, name: 'Platea Preferencial', price: 35000.00, amount: 100 }
+];
+
+
 // ==================== Helpers ====================
 
 /**
@@ -183,6 +194,7 @@ const seedDatabase = async () => {
         await seedTable(SecurityMeasures, securityMeasures, transaction);
         await seedTable(UserFavorites, userFavorites, transaction);
         await seedTable(VenueAssistance, venueAssistance, transaction);
+        await seedTable(Ticket, tickets, transaction);
 
 
         await transaction.commit();
