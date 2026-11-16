@@ -13,6 +13,7 @@ const SecurityMeasures = require('./Security_Measures');
 const UserFavorites = require('./User_Favorites');
 const VenueAssistance = require('./Venue_Assistance');
 const Ticket = require('./Ticket');
+const Notification = require('./Notifications');
 
 
 // ==================== Relaciones ====================
@@ -209,6 +210,27 @@ Ticket.belongsTo(Venue, {
 });
 
 
+// User y Notification
+User.hasMany(Notification, {
+    foreignKey: 'user_id',
+    as: 'notifications'
+});
+Notification.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
+
+// Venue y Notification
+Venue.hasMany(Notification, {
+    foreignKey: 'venue_id',
+    as: 'notifications'
+});
+Notification.belongsTo(Venue, {
+    foreignKey: 'venue_id',
+    as: 'venue'
+});
+
+
 // ==================== Crear objeto models ====================
 const models = {
     Category,
@@ -223,7 +245,8 @@ const models = {
     SecurityMeasures,
     UserFavorites,
     VenueAssistance,
-    Ticket
+    Ticket,
+    Notification
 };
 
 

@@ -1,121 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
+import Navbar from './assets/components/general/navbar/Navbar'
+import Footer from './assets/components/general/footer/Footer'
+import PreLogin from './assets/components/general/login/PreLogin'
+import FormLogin from './assets/components/general/login/FormLogin'
+import OrganizerLogin from './assets/components/general/login/OrganizerLogin'
+import RecoverOrganizerCode from './assets/components/general/login/RecoverOrganizerCode'
+import RecoverClientPassword from './assets/components/general/login/RecoverClientPassword'
+import ResetPassword from './assets/components/general/login/ResetPassword'
+import AdminLogin from './assets/components/general/login/AdminLogin'
+import Register from './assets/components/general/login/PreRegister'
+import LandingPage from './assets/components/general/landing/LandingPage'
+import EventsPage from './assets/components/client/events/EventsPage'
+import EventDetail from './assets/components/client/events/EventDetail'
+import Profile from './assets/components/client/profile/Profile'
+import OrganizerPanel from './assets/components/organizer/OrganizerPanel'
+import AdminUsers from './assets/components/admin/AdminUsers'
+import ProtectedRoute from './assets/components/general/routes/ProtectedRoute'
+import { ROLES } from './context/authContext'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <Navbar />
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/landingOrg" element={<LandingPage />} />
+          <Route path="/login" element={<PreLogin />} />
+          <Route path="/login/client" element={<FormLogin />} />
+          <Route path="/login/organizer" element={<OrganizerLogin />} />
+          <Route path="/login/organizer/recover" element={<RecoverOrganizerCode />} />
+          <Route path="/login/client/recover" element={<RecoverClientPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/login/admin" element={<AdminLogin />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/register/client" element={<Register />} />
 
-      <div className="ticks"></div>
+          {/* Eventos: los puede ver cualquiera */}
+          <Route path="/eventos" element={<EventsPage />} />
+          <Route path="/eventos/:id" element={<EventDetail />} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          {/* Requieren sesión */}
+          <Route path="/perfil" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route
+            path="/organizador"
+            element={<ProtectedRoute roles={[ROLES.ORGANIZADOR, ROLES.ADMIN]}><OrganizerPanel /></ProtectedRoute>}
+          />
+          <Route
+            path="/admin/usuarios"
+            element={<ProtectedRoute roles={[ROLES.ADMIN]}><AdminUsers /></ProtectedRoute>}
+          />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+          {/* Cualquier ruta que no existe vuelve al inicio */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   )
 }
 

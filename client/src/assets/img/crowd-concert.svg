@@ -1,0 +1,28 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="concertBg" x1="114" y1="63" x2="1076" y2="729" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F0F0F"/>
+      <stop offset="0.53" stop-color="#241C16"/>
+      <stop offset="1" stop-color="#101010"/>
+    </linearGradient>
+    <linearGradient id="concertGold" x1="552" y1="162" x2="799" y2="427" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9D784"/>
+      <stop offset="1" stop-color="#C69A00"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="40" fill="url(#concertBg)"/>
+  <path d="M193 610L265 469H339L409 610H193Z" fill="#111111"/>
+  <path d="M431 610L503 469H577L647 610H431Z" fill="#1A1A1A"/>
+  <path d="M669 610L741 469H815L885 610H669Z" fill="#111111"/>
+  <path d="M905 610L977 469H1051L1121 610H905Z" fill="#1A1A1A"/>
+  <circle cx="624" cy="286" r="108" fill="#171717"/>
+  <circle cx="624" cy="286" r="62" fill="url(#concertGold)"/>
+  <line x1="424" y1="629" x2="369" y2="460" stroke="#D9B757" stroke-width="12" stroke-linecap="round"/>
+  <line x1="668" y1="629" x2="620" y2="440" stroke="#D9B757" stroke-width="12" stroke-linecap="round"/>
+  <line x1="914" y1="629" x2="868" y2="470" stroke="#D9B757" stroke-width="12" stroke-linecap="round"/>
+  <path d="M141 705C205 658 262 635 343 635C444 635 515 674 609 705C682 708 760 704 820 685C868 671 920 640 980 603V800H141V705Z" fill="#090909"/>
+  <circle cx="401" cy="430" r="17" fill="#F0D98B"/>
+  <circle cx="512" cy="420" r="17" fill="#F0D98B"/>
+  <circle cx="741" cy="430" r="17" fill="#F0D98B"/>
+  <circle cx="840" cy="416" r="17" fill="#F0D98B"/>
+</svg>
