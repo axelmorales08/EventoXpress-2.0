@@ -3,6 +3,10 @@
   background: transparent;
   box-sizing: border-box;
   padding: 18px 16px 0;
+  /* Queda por encima de las imágenes de la landing (que usan z-index 2 y 3),
+     así el menú desplegable no se esconde debajo de ellas */
+  position: relative;
+  z-index: 100;
 }
 
 .navbar-container {

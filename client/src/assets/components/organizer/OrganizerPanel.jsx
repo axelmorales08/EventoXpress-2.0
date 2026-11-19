@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import '../general/pages/Pages.css'
 import CreateEventForm from './CreateEventForm'
 import Attendees from './Attendees'
+import EditEventForm from '../admin/EditEventForm'
 import { reportsService } from '../../../services/reportsService'
 import { eventsService } from '../../../services/eventsService'
 import { getErrorMessage } from '../../../services/api'
@@ -26,6 +27,8 @@ export default function OrganizerPanel() {
   const [report, setReport] = useState(null)
   const [attendance, setAttendance] = useState(null)
   const [selected, setSelected] = useState(null)
+  // Admin: edita cualquier evento. Organizador: solo ve (y edita) los suyos; el back también lo controla
+  const [editingId, setEditingId] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [okMessage, setOkMessage] = useState('')
 
@@ -103,6 +106,19 @@ export default function OrganizerPanel() {
 
       {tab === 'eventos' && (
         <>
+          {editingId && (
+            <EditEventForm
+              key={editingId}
+              eventId={editingId}
+              onClose={() => setEditingId(null)}
+              onSaved={(text) => {
+                setEditingId(null)
+                setErrorMessage('')
+                setOkMessage(text)
+                load()
+              }}
+            />
+          )}
           {selected && <Attendees event={selected} onClose={() => setSelected(null)} />}
           <div className="panel">
             {!report ? (
@@ -130,6 +146,16 @@ export default function OrganizerPanel() {
                           <div className="actions-row" style={{ marginTop: 0 }}>
                             <button className={`btn-sm ${ev.estado === 'publico' ? '' : 'btn-gold'}`} onClick={() => togglePublish(ev)}>
                               {ev.estado === 'publico' ? 'Despublicar' : 'Publicar'}
+                            </button>
+                            <button
+                              className="btn-sm"
+                              onClick={() => {
+                                setOkMessage('')
+                                setEditingId(ev.id)
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                              }}
+                            >
+                              Editar
                             </button>
                             <button className="btn-sm" onClick={() => setSelected(ev)}>Asistentes</button>
                             <button className="btn-sm" onClick={() => navigate(`/eventos/${ev.id}`)}>Ver</button>

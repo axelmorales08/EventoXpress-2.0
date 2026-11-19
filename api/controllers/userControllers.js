@@ -351,8 +351,9 @@ const authVerify = async (req, res) => {
 };
 
 // Función auxiliar: valida los campos y actualiza al usuario con ese id
-const updateById = async (id, req, res) => {
-    const { full_name, user_name, email, phone, birthdate } = req.body;
+// options.admin = true -> el admin además puede cambiar DNI y género (y editar usuarios desactivados)
+const updateById = async (id, req, res, options = {}) => {
+    const { full_name, user_name, email, phone, birthdate, dni, gender_id } = req.body;
     const changes = {};
 
     try {
@@ -370,17 +371,25 @@ const updateById = async (id, req, res) => {
             if (isNaN(Date.parse(birthdate))) return res.status(400).json({ message: 'La fecha de nacimiento no es válida' });
             changes.birthdate = birthdate;
         }
+        if (options.admin && dni) {
+            if (!/^\d{7,8}$/.test(String(dni))) return res.status(400).json({ message: 'El DNI tiene que tener 7 u 8 números' });
+            changes.dni = dni;
+        }
+        if (options.admin && gender_id) {
+            if (![1, 2, 3, 4].includes(Number(gender_id))) return res.status(400).json({ message: 'Género inválido' });
+            changes.gender_id = Number(gender_id);
+        }
 
         if (Object.keys(changes).length === 0)
             return res.status(400).json({ message: 'Ingrese al menos un valor a modificar' });
 
-        const [updated] = await User.update(changes, { where: { id } });
+        const [updated] = await User.update(changes, { where: { id }, paranoid: !options.admin });
         if (updated === 0) return res.status(404).json({ message: 'No se modificó ningún usuario' });
 
         return res.json({ message: 'Se actualizó el usuario correctamente' });
     } catch (err) {
         if (err.name === 'SequelizeUniqueConstraintError')
-            return res.status(409).json({ message: 'Ese email o usuario ya está en uso' });
+            return res.status(409).json({ message: 'Ese email, usuario o DNI ya está en uso' });
         console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor' });
     }
@@ -470,7 +479,7 @@ const usersStatus = async (req, res) => {
 };
 
 // PATCH /api/users_mody/:id
-const usersMody = (req, res) => updateById(req.params.id, req, res);
+const usersMody = (req, res) => updateById(req.params.id, req, res, { admin: true });
 
 // PATCH /api/users_role/:id   body: { type_users_id }
 const usersRole = async (req, res) => {

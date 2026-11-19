@@ -5,6 +5,7 @@ import { usersService } from '../../../services/usersService'
 import { getErrorMessage } from '../../../services/api'
 import { useAuth } from '../../../context/useAuth'
 import { ROLE_NAMES } from '../../../context/authContext'
+import EditUserForm from './EditUserForm'
 
 export default function AdminUsers() {
   const navigate = useNavigate()
@@ -14,6 +15,7 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [okMessage, setOkMessage] = useState('')
+  const [editingId, setEditingId] = useState(null)
 
   async function load() {
     try {
@@ -71,6 +73,20 @@ export default function AdminUsers() {
         <div className="stat"><div className="stat-value">{activos.filter((u) => u.type_users_id === 3).length}</div><div className="stat-label">Consumidores</div></div>
       </div>
 
+      {editingId && (
+        <EditUserForm
+          key={editingId}
+          userId={editingId}
+          onClose={() => setEditingId(null)}
+          onSaved={(text) => {
+            setEditingId(null)
+            setErrorMessage('')
+            setOkMessage(text)
+            load()
+          }}
+        />
+      )}
+
       <div className="panel">
         <div className="field" style={{ maxWidth: 360, marginBottom: 12 }}>
           <label>Buscar</label>
@@ -116,9 +132,21 @@ export default function AdminUsers() {
                         <span className={`badge ${u.deleted_at ? 'badge-red' : 'badge-green'}`}>{u.deleted_at ? 'Inactivo' : 'Activo'}</span>
                       </td>
                       <td>
-                        <button className={`btn-sm ${u.deleted_at ? '' : 'btn-danger'}`} disabled={isMe} onClick={() => toggleStatus(u)}>
-                          {u.deleted_at ? 'Activar' : 'Desactivar'}
-                        </button>
+                        <div className="actions-row" style={{ marginTop: 0, flexWrap: 'nowrap' }}>
+                          <button
+                            className="btn-sm"
+                            onClick={() => {
+                              setOkMessage('')
+                              setEditingId(u.id)
+                              window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }}
+                          >
+                            Editar
+                          </button>
+                          <button className={`btn-sm ${u.deleted_at ? '' : 'btn-danger'}`} disabled={isMe} onClick={() => toggleStatus(u)}>
+                            {u.deleted_at ? 'Activar' : 'Desactivar'}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )
